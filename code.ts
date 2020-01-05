@@ -1,29 +1,40 @@
-// const nodes: SceneNode[] = [];
-// for (let i = 0; i < numberOfRectangles; i++) {
-//   const rect = figma.createRectangle();
-//   rect.x = i * 150;
-//   rect.fills = [{type: 'SOLID', color: {r: 1, g: 0.5, b: 0}}];
-//   figma.currentPage.appendChild(rect);
-//   nodes.push(rect);
-// }
-
 const GRID_DEFAULTS = {
   width: 100,
   height: 100,
-  size: 8,
-  gap: 4,
-  color: 'red'
+  size: 3,
+  gap: 6,
+  color: { r: 0.823529412, g: 0.839215686, b: 0.858823529 } // #d2d6db
 };
 
-function createDotGrid(options=GRID_DEFAULTS) {
+function createDotGrid({ width, height, size, gap, color } = GRID_DEFAULTS) {
+  // This frame will contain the generated dots for the dot grid.
   const grid = figma.createFrame();
   grid.name = 'Dot Grid';
+  grid.backgrounds = [];
+
+  // Generate the dots.
+  const rows = Math.floor((height + gap) / (size + gap));
+  const cols = Math.floor((width + gap) / (size + gap));
+
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      const dot = figma.createEllipse();
+      dot.resize(size, size);
+      dot.fills = [{ type: 'SOLID', color }];
+      dot.locked = true;
+      dot.x = col * (size + gap);
+      dot.y = row * (size + gap);
+
+      grid.appendChild(dot);
+    }
+  }
 
   return grid;
 }
 
 const grid = createDotGrid();
 figma.currentPage.appendChild(grid);
+figma.currentPage.selection = [grid];
 
 // Make sure to close the plugin when you're done. Otherwise the plugin will
 // keep running, which shows the cancel button at the bottom of the screen.
