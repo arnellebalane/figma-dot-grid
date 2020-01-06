@@ -35,6 +35,7 @@ function createDotGrid({ width, height, size, gap, color } = GRID_DEFAULTS) {
 const grid = createDotGrid();
 figma.currentPage.appendChild(grid);
 figma.currentPage.selection = [grid];
+figma.viewport.scrollAndZoomIntoView([grid]);
 
 // Make sure to close the plugin when you're done. Otherwise the plugin will
 // keep running, which shows the cancel button at the bottom of the screen.
