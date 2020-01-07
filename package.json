@@ -2,11 +2,10 @@
   "name": "figma-dot-grid",
   "version": "1.0.0",
   "description": "Figma plugin for generating dot grids",
-  "main": "dist/plugin.js",
   "scripts": {
     "clean": "rm -rf .parcel-cache dist",
-    "watch": "parcel watch src/plugin.ts",
-    "build": "parcel build src/plugin.ts --no-minify"
+    "watch": "parcel watch src/plugin.ts src/ui.html",
+    "build": "parcel build src/plugin.ts src/ui.html --no-minify"
   },
   "repository": {
     "type": "git",
