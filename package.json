@@ -22,5 +22,7 @@
     "url": "https://github.com/arnellebalane/figma-dot-grid/issues"
   },
   "homepage": "https://github.com/arnellebalane/figma-dot-grid#readme",
-  "devDependencies": {}
+  "devDependencies": {
+    "parcel": "2.0.0-alpha.3.2"
+  }
 }
