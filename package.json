@@ -1,0 +1,26 @@
+{
+  "name": "figma-dot-grid",
+  "version": "1.0.0",
+  "description": "Figma plugin for generating dot grids",
+  "main": "dist/plugin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arnellebalane/figma-dot-grid.git"
+  },
+  "keywords": [
+    "figma-plugins",
+    "dot-grid"
+  ],
+  "author": "Arnelle Balane <arnellebalane@gmail.com> (https://arnellebalane.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/arnellebalane/figma-dot-grid/issues"
+  },
+  "homepage": "https://github.com/arnellebalane/figma-dot-grid#readme",
+  "devDependencies": {
+    "parcel-bundler": "1.12.4"
+  }
+}

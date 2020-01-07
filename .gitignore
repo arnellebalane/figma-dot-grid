@@ -1,1 +1,3 @@
-/code.js
+node_modules
+dist
+.cache
