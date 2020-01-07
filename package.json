@@ -4,9 +4,9 @@
   "description": "Figma plugin for generating dot grids",
   "main": "dist/plugin.js",
   "scripts": {
-    "clean": "rm -rf .cache dist",
-    "watch": "parcel watch src/plugin.ts --no-source-maps",
-    "build": "parcel build src/plugin.ts --no-minify --no-source-maps --experimental-scope-hoisting"
+    "clean": "rm -rf .parcel-cache dist",
+    "watch": "parcel watch src/plugin.ts",
+    "build": "parcel build src/plugin.ts --no-minify"
   },
   "repository": {
     "type": "git",
