@@ -2,5 +2,5 @@
   "name": "Dot Grid",
   "id": "795474715778185230",
   "api": "1.0.0",
-  "main": "code.js"
+  "main": "dist/plugin.js"
 }
