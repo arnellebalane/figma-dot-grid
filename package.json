@@ -22,8 +22,5 @@
     "url": "https://github.com/arnellebalane/figma-dot-grid/issues"
   },
   "homepage": "https://github.com/arnellebalane/figma-dot-grid#readme",
-  "devDependencies": {
-    "parcel-bundler": "1.12.4",
-    "typescript": "3.7.4"
-  }
+  "devDependencies": {}
 }
