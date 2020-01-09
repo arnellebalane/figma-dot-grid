@@ -1,0 +1,26 @@
+body {
+  margin: 0;
+  padding: 8px;
+}
+
+.field {
+  display: flex;
+}
+
+.field:not(:first-child) {
+  margin-top: 4px;
+}
+
+.field:not(:last-child) {
+  margin-bottom: 4px;
+}
+
+.label {
+  flex-shrink: 0;
+  width: 60px;
+}
+
+.actions {
+  margin-top: 16px;
+  text-align: center;
+}

@@ -5,7 +5,7 @@
   "scripts": {
     "clean": "rm -rf .parcel-cache dist",
     "watch": "parcel watch src/plugin.ts src/ui.html",
-    "build": "parcel build src/plugin.ts src/ui.html"
+    "build": "parcel build src/plugin.ts src/ui.html --no-minify"
   },
   "repository": {
     "type": "git",
