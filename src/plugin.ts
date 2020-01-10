@@ -17,6 +17,8 @@ let grid;
 figma.ui.onmessage = data => {
   grid = createGridFrame(data);
   createGridDots(grid, data);
+  setPluginData(grid, data);
+
   figma.currentPage.appendChild(grid);
 
   figma.currentPage.selection = [grid];
@@ -24,7 +26,7 @@ figma.ui.onmessage = data => {
   figma.closePlugin();
 };
 
-function createGridFrame({ width, height } = DEFAULT_CONFIG) {
+function createGridFrame({ width, height }) {
   const grid = figma.createFrame();
   grid.name = 'Dot Grid';
   grid.backgrounds = [];
@@ -32,10 +34,7 @@ function createGridFrame({ width, height } = DEFAULT_CONFIG) {
   return grid;
 }
 
-function createGridDots(
-  grid,
-  { width, height, size, gap, color } = DEFAULT_CONFIG
-) {
+function createGridDots(grid, { width, height, size, gap, color }) {
   const rows = Math.floor((height + gap) / (size + gap));
   const cols = Math.floor((width + gap) / (size + gap));
 
@@ -53,6 +52,15 @@ function createGridDots(
   }
 
   return grid;
+}
+
+function setPluginData(grid, data) {
+  grid.setPluginData('config', JSON.stringify(data));
+}
+
+function getPluginData(grid) {
+  const data = grid.getPluginData('config');
+  return data ? JSON.parse(data) : null;
 }
 
 function hex2rgb(hex) {
