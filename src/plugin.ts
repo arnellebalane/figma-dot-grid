@@ -1,12 +1,31 @@
-const GRID_DEFAULTS = {
+const DEFAULT_CONFIG = {
   width: 100,
   height: 100,
   size: 3,
   gap: 6,
-  color: { r: 0.823529412, g: 0.839215686, b: 0.858823529 } // #d2d6db
+  color: 'd2d6db'
 };
 
-function createDotGrid({ width, height, size, gap, color } = GRID_DEFAULTS) {
+figma.showUI(__html__, {
+  width: 200,
+  height: 240
+});
+
+figma.ui.postMessage({
+  type: 'config',
+  data: DEFAULT_CONFIG
+});
+
+figma.ui.onmessage = ({ type, data }) => {
+  if (type === 'config') {
+    const grid = createDotGrid(data);
+    figma.currentPage.appendChild(grid);
+    figma.currentPage.selection = [grid];
+    figma.viewport.scrollAndZoomIntoView([grid]);
+  }
+};
+
+function createDotGrid({ width, height, size, gap, color } = DEFAULT_CONFIG) {
   // This frame will contain the generated dots for the dot grid.
   const grid = figma.createFrame();
   grid.name = 'Dot Grid';
@@ -20,7 +39,7 @@ function createDotGrid({ width, height, size, gap, color } = GRID_DEFAULTS) {
     for (let col = 0; col < cols; col++) {
       const dot = figma.createEllipse();
       dot.resize(size, size);
-      dot.fills = [{ type: 'SOLID', color }];
+      dot.fills = [{ type: 'SOLID', color: hex2rgb(color) }];
       dot.locked = true;
       dot.x = col * (size + gap);
       dot.y = row * (size + gap);
@@ -32,11 +51,13 @@ function createDotGrid({ width, height, size, gap, color } = GRID_DEFAULTS) {
   return grid;
 }
 
-const grid = createDotGrid();
-figma.currentPage.appendChild(grid);
-figma.currentPage.selection = [grid];
-figma.viewport.scrollAndZoomIntoView([grid]);
-
-// Make sure to close the plugin when you're done. Otherwise the plugin will
-// keep running, which shows the cancel button at the bottom of the screen.
-figma.closePlugin();
+function hex2rgb(hex) {
+  const [_, r, g, b] = hex.match(
+    /^#?([a-zA-Z0-9]{2})([a-zA-Z0-9]{2})([a-zA-Z0-9]{2})$/
+  );
+  return {
+    r: parseInt(r, 16) / 255,
+    g: parseInt(g, 16) / 255,
+    b: parseInt(b, 16) / 255
+  };
+}
