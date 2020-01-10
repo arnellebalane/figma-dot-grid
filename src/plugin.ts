@@ -1,35 +1,52 @@
-const DEFAULT_CONFIG = {
-  width: 100,
-  height: 100,
-  size: 3,
-  gap: 6,
-  color: 'd2d6db'
-};
+(() => {
+  const selection = figma.currentPage.selection;
+  const gridSelection = selection.filter(hasPluginData);
+  let grid;
 
-figma.showUI(__html__, {
-  width: 200,
-  height: 240
-});
-figma.ui.postMessage(DEFAULT_CONFIG);
+  if (selection.length > 1) {
+    return figma.closePlugin('Only one node can be selected');
+  } else if (selection.length === 1 && gridSelection.length === 0) {
+    return figma.closePlugin('Only dot grid nodes can be selected');
+  } else if (selection.length === 1 && gridSelection.length === 1) {
+    grid = selection[0];
+  }
 
-let grid;
+  const DEFAULT_CONFIG = {
+    width: 100,
+    height: 100,
+    size: 3,
+    gap: 6,
+    color: 'd2d6db'
+  };
 
-figma.ui.onmessage = data => {
-  grid = createGridFrame(data);
-  createGridDots(grid, data);
-  setPluginData(grid, data);
+  figma.showUI(__html__, { width: 200, height: 240 });
 
-  figma.currentPage.appendChild(grid);
+  const initialConfig = grid ? getPluginData(grid) : DEFAULT_CONFIG;
+  figma.ui.postMessage(initialConfig);
 
-  figma.currentPage.selection = [grid];
-  figma.viewport.scrollAndZoomIntoView([grid]);
-  figma.closePlugin();
-};
+  figma.ui.onmessage = data => {
+    if (!grid) {
+      grid = createGridFrame();
+      figma.currentPage.appendChild(grid);
+    }
+    resizeGridFrame(grid, data);
+    createGridDots(grid, data);
+    setPluginData(grid, data);
 
-function createGridFrame({ width, height }) {
+    figma.currentPage.selection = [grid];
+    figma.viewport.scrollAndZoomIntoView([grid]);
+    figma.closePlugin();
+  };
+})();
+
+function createGridFrame() {
   const grid = figma.createFrame();
   grid.name = 'Dot Grid';
   grid.backgrounds = [];
+  return grid;
+}
+
+function resizeGridFrame(grid, { width, height }) {
   grid.resize(width, height);
   return grid;
 }
@@ -61,6 +78,10 @@ function setPluginData(grid, data) {
 function getPluginData(grid) {
   const data = grid.getPluginData('config');
   return data ? JSON.parse(data) : null;
+}
+
+function hasPluginData(grid) {
+  return Boolean(grid.getPluginData('config'));
 }
 
 function hex2rgb(hex) {
