@@ -30,6 +30,7 @@ function createDotGrid({ width, height, size, gap, color } = DEFAULT_CONFIG) {
   const grid = figma.createFrame();
   grid.name = 'Dot Grid';
   grid.backgrounds = [];
+  grid.resize(width, height);
 
   // Generate the dots.
   const rows = Math.floor((height + gap) / (size + gap));

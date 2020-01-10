@@ -3,14 +3,13 @@ import React, { useState, useEffect } from 'react';
 export default App = () => {
   const [config, setConfig] = useState({});
 
-  useEffect(() => {
-    window.onmessage = event => {
-      const { type, data } = event.data.pluginMessage;
-      if (type === 'config') {
-        setConfig(data);
-      }
-    };
-  });
+  const handleChange = event => {
+    let { name, type, value } = event.target;
+    if (type === 'number') {
+      value = parseInt(value, 10);
+    }
+    setConfig({ ...config, [name]: value });
+  };
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -25,6 +24,15 @@ export default App = () => {
     );
   };
 
+  useEffect(() => {
+    window.onmessage = event => {
+      const { type, data } = event.data.pluginMessage;
+      if (type === 'config') {
+        setConfig(data);
+      }
+    };
+  });
+
   return (
     <form onSubmit={handleSubmit}>
       <div class="field">
@@ -35,8 +43,10 @@ export default App = () => {
           type="number"
           id="width"
           name="width"
-          value={config.width}
           class="input"
+          value={config.width}
+          onChange={handleChange}
+          required
         />
       </div>
 
@@ -48,8 +58,10 @@ export default App = () => {
           type="number"
           id="height"
           name="height"
-          value={config.height}
           class="input"
+          value={config.height}
+          onChange={handleChange}
+          required
         />
       </div>
 
@@ -61,8 +73,10 @@ export default App = () => {
           type="number"
           id="size"
           name="size"
-          value={config.size}
           class="input"
+          value={config.size}
+          onChange={handleChange}
+          required
         />
       </div>
 
@@ -74,8 +88,10 @@ export default App = () => {
           type="number"
           id="gap"
           name="gap"
-          value={config.gap}
           class="input"
+          value={config.gap}
+          onChange={handleChange}
+          required
         />
       </div>
 
@@ -87,8 +103,10 @@ export default App = () => {
           type="text"
           id="color"
           name="color"
-          value={config.color}
           class="input"
+          value={config.color}
+          onChange={handleChange}
+          required
         />
       </div>
 
