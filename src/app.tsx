@@ -1,7 +1,27 @@
 import React, { useState, useEffect } from 'react';
 
+const usePluginMessage = (key, initialValue) => {
+  const [state, setState] = useState(initialValue);
+  const postState = () => {
+    parent.postMessage({ pluginMessage: { type: key, data: state } }, '*');
+  };
+
+  useEffect(() => {
+    const handleMessage = event => {
+      const { type, data } = event.data.pluginMessage;
+      if (type === key) {
+        setState(data);
+      }
+    };
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  });
+
+  return [state, setState, postState];
+};
+
 export default App = () => {
-  const [config, setConfig] = useState({});
+  const [config, setConfig, postConfig] = usePluginMessage('config', {});
 
   const handleChange = event => {
     let { name, type, value } = event.target;
@@ -13,25 +33,8 @@ export default App = () => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    parent.postMessage(
-      {
-        pluginMessage: {
-          type: 'config',
-          data: config
-        }
-      },
-      '*'
-    );
+    postConfig();
   };
-
-  useEffect(() => {
-    window.onmessage = event => {
-      const { type, data } = event.data.pluginMessage;
-      if (type === 'config') {
-        setConfig(data);
-      }
-    };
-  });
 
   return (
     <form onSubmit={handleSubmit}>
