@@ -22,6 +22,7 @@ figma.ui.onmessage = ({ type, data }) => {
     figma.currentPage.appendChild(grid);
     figma.currentPage.selection = [grid];
     figma.viewport.scrollAndZoomIntoView([grid]);
+    figma.closePlugin();
   }
 };
 
