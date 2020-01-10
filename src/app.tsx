@@ -1,27 +1,20 @@
 import React, { useState, useEffect } from 'react';
 
-const usePluginMessage = (key, initialValue) => {
-  const [state, setState] = useState(initialValue);
-  const postState = () => {
-    parent.postMessage({ pluginMessage: { type: key, data: state } }, '*');
-  };
+const useDotGridConfig = () => {
+  const [config, setConfig] = useState({});
+  const postConfig = () => parent.postMessage({ pluginMessage: config }, '*');
 
   useEffect(() => {
-    const handleMessage = event => {
-      const { type, data } = event.data.pluginMessage;
-      if (type === key) {
-        setState(data);
-      }
-    };
+    const handleMessage = event => setConfig(event.data.pluginMessage);
     window.addEventListener('message', handleMessage);
     return () => window.removeEventListener('message', handleMessage);
   });
 
-  return [state, setState, postState];
+  return [config, setConfig, postConfig];
 };
 
 export default App = () => {
-  const [config, setConfig, postConfig] = usePluginMessage('config', {});
+  const [config, setConfig, postConfig] = useDotGridConfig();
 
   const handleChange = event => {
     let { name, type, value } = event.target;

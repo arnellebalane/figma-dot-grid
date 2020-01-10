@@ -10,20 +10,14 @@ figma.showUI(__html__, {
   width: 200,
   height: 240
 });
-
-figma.ui.postMessage({
-  type: 'config',
-  data: DEFAULT_CONFIG
-});
+figma.ui.postMessage(DEFAULT_CONFIG);
 
 let grid;
 
-figma.ui.onmessage = ({ type, data }) => {
-  if (type === 'config') {
-    grid = createGridFrame(data);
-    createGridDots(grid, data);
-    figma.currentPage.appendChild(grid);
-  }
+figma.ui.onmessage = data => {
+  grid = createGridFrame(data);
+  createGridDots(grid, data);
+  figma.currentPage.appendChild(grid);
 
   figma.currentPage.selection = [grid];
   figma.viewport.scrollAndZoomIntoView([grid]);
