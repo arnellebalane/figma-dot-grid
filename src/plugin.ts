@@ -16,24 +16,32 @@ figma.ui.postMessage({
   data: DEFAULT_CONFIG
 });
 
+let grid;
+
 figma.ui.onmessage = ({ type, data }) => {
   if (type === 'config') {
-    const grid = createDotGrid(data);
+    grid = createGridFrame(data);
+    createGridDots(grid, data);
     figma.currentPage.appendChild(grid);
-    figma.currentPage.selection = [grid];
-    figma.viewport.scrollAndZoomIntoView([grid]);
-    figma.closePlugin();
   }
+
+  figma.currentPage.selection = [grid];
+  figma.viewport.scrollAndZoomIntoView([grid]);
+  figma.closePlugin();
 };
 
-function createDotGrid({ width, height, size, gap, color } = DEFAULT_CONFIG) {
-  // This frame will contain the generated dots for the dot grid.
+function createGridFrame({ width, height } = DEFAULT_CONFIG) {
   const grid = figma.createFrame();
   grid.name = 'Dot Grid';
   grid.backgrounds = [];
   grid.resize(width, height);
+  return grid;
+}
 
-  // Generate the dots.
+function createGridDots(
+  grid,
+  { width, height, size, gap, color } = DEFAULT_CONFIG
+) {
   const rows = Math.floor((height + gap) / (size + gap));
   const cols = Math.floor((width + gap) / (size + gap));
 
