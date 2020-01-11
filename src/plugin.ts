@@ -21,7 +21,14 @@
 
   figma.showUI(__html__, { width: 200, height: 240 });
 
-  const initialConfig = grid ? getPluginData(grid) : DEFAULT_CONFIG;
+  let initialConfig = DEFAULT_CONFIG;
+  if (grid) {
+    initialConfig = {
+      ...getPluginData(grid),
+      width: grid.width,
+      height: grid.height
+    };
+  }
   figma.ui.postMessage(initialConfig);
 
   figma.ui.onmessage = data => {
