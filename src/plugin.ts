@@ -32,7 +32,7 @@
   }
   figma.ui.postMessage(initialConfig);
 
-  figma.ui.onmessage = data => {
+  figma.ui.onmessage = async data => {
     if (grid) {
       clearGridFrame(grid);
     } else {
@@ -41,7 +41,7 @@
     }
 
     resizeGridFrame(grid, data);
-    createGridDots(grid, data);
+    await createGridDots(grid, data);
     setPluginData(grid, data);
 
     figma.currentPage.selection = [grid];
@@ -68,7 +68,7 @@ function resizeGridFrame(grid, { width, height }) {
   grid.resize(width, height);
 }
 
-function createGridDots(grid, { width, height, size, gap, color }) {
+async function createGridDots(grid, { width, height, size, gap, color }) {
   const rows = Math.floor((height + gap) / (size + gap));
   const cols = Math.floor((width + gap) / (size + gap));
 
@@ -77,21 +77,21 @@ function createGridDots(grid, { width, height, size, gap, color }) {
   rowFrame.backgrounds = [];
   rowFrame.resize(width, size + gap);
 
-  for (let col = 0; col < cols; col++) {
+  await asyncRange(cols, col => {
     const dot = figma.createEllipse();
     dot.resize(size, size);
     dot.fills = [{ type: 'SOLID', color: hex2rgb(color) }];
     dot.x = col * (size + gap);
     dot.y = 0;
     rowFrame.appendChild(dot);
-  }
+  });
 
-  for (let row = 0; row < rows; row++) {
+  await asyncRange(rows, row => {
     const currentRow = rowFrame.clone();
     currentRow.x = 0;
     currentRow.y = row * (size + gap);
     grid.appendChild(currentRow);
-  }
+  });
 
   rowFrame.remove();
 }
@@ -118,4 +118,15 @@ function hex2rgb(hex) {
     g: parseInt(g, 16) / 255,
     b: parseInt(b, 16) / 255
   };
+}
+
+function asyncRange(max, callback) {
+  let i = 0;
+  return new Promise(resolve => {
+    const run = () => {
+      callback(i);
+      return ++i < max ? setTimeout(run, 0) : resolve();
+    };
+    run();
+  });
 }
