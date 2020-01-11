@@ -39,6 +39,7 @@ export default App = () => {
           type="number"
           id="width"
           name="width"
+          min="1"
           class="input"
           value={config.width}
           onChange={handleChange}
@@ -54,6 +55,7 @@ export default App = () => {
           type="number"
           id="height"
           name="height"
+          min="1"
           class="input"
           value={config.height}
           onChange={handleChange}
@@ -69,6 +71,7 @@ export default App = () => {
           type="number"
           id="size"
           name="size"
+          min="1"
           class="input"
           value={config.size}
           onChange={handleChange}
@@ -84,6 +87,7 @@ export default App = () => {
           type="number"
           id="gap"
           name="gap"
+          min="0"
           class="input"
           value={config.gap}
           onChange={handleChange}
