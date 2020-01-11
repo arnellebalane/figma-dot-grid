@@ -55,19 +55,28 @@ function createGridDots(grid, { width, height, size, gap, color }) {
   const rows = Math.floor((height + gap) / (size + gap));
   const cols = Math.floor((width + gap) / (size + gap));
 
-  for (let row = 0; row < rows; row++) {
-    for (let col = 0; col < cols; col++) {
-      const dot = figma.createEllipse();
-      dot.resize(size, size);
-      dot.fills = [{ type: 'SOLID', color: hex2rgb(color) }];
-      dot.locked = true;
-      dot.x = col * (size + gap);
-      dot.y = row * (size + gap);
+  const rowFrame = figma.createFrame();
+  rowFrame.locked = true;
+  rowFrame.backgrounds = [];
+  rowFrame.resize(width, size + gap);
 
-      grid.appendChild(dot);
-    }
+  for (let col = 0; col < cols; col++) {
+    const dot = figma.createEllipse();
+    dot.resize(size, size);
+    dot.fills = [{ type: 'SOLID', color: hex2rgb(color) }];
+    dot.x = col * (size + gap);
+    dot.y = 0;
+    rowFrame.appendChild(dot);
   }
 
+  for (let row = 0; row < rows; row++) {
+    const currentRow = rowFrame.clone();
+    currentRow.x = 0;
+    currentRow.y = row * (size + gap);
+    grid.appendChild(currentRow);
+  }
+
+  rowFrame.remove();
   return grid;
 }
 
