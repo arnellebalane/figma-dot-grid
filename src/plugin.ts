@@ -25,10 +25,13 @@
   figma.ui.postMessage(initialConfig);
 
   figma.ui.onmessage = data => {
-    if (!grid) {
+    if (grid) {
+      clearGridFrame(grid);
+    } else {
       grid = createGridFrame();
       figma.currentPage.appendChild(grid);
     }
+
     resizeGridFrame(grid, data);
     createGridDots(grid, data);
     setPluginData(grid, data);
@@ -46,9 +49,12 @@ function createGridFrame() {
   return grid;
 }
 
+function clearGridFrame(grid) {
+  grid.children.map(node => node.remove());
+}
+
 function resizeGridFrame(grid, { width, height }) {
   grid.resize(width, height);
-  return grid;
 }
 
 function createGridDots(grid, { width, height, size, gap, color }) {
@@ -77,7 +83,6 @@ function createGridDots(grid, { width, height, size, gap, color }) {
   }
 
   rowFrame.remove();
-  return grid;
 }
 
 function setPluginData(grid, data) {
