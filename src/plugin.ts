@@ -26,7 +26,8 @@
     initialConfig = {
       ...getPluginData(grid),
       width: grid.width,
-      height: grid.height
+      height: grid.height,
+      editing: true
     };
   }
   figma.ui.postMessage(initialConfig);

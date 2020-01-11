@@ -107,7 +107,9 @@ export default App = () => {
       </div>
 
       <div class="actions">
-        <button class="button button--primary">Generate</button>
+        <button class="button button--primary">
+          {config.editing ? 'Update' : 'Generate'}
+        </button>
       </div>
     </form>
   );
