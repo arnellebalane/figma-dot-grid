@@ -40,6 +40,9 @@
     figma.viewport.scrollAndZoomIntoView([grid]);
     figma.closePlugin();
   };
+
+  figma.on('selectionchange', figma.closePlugin);
+  figma.on('currentpagechange', figma.closePlugin);
 })();
 
 function createGridFrame() {
