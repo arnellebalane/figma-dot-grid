@@ -2,6 +2,7 @@
   const selection = figma.currentPage.selection;
   const gridSelection = selection.filter(hasPluginData);
   let grid;
+  let isProcessing = false;
 
   if (selection.length > 1) {
     return figma.closePlugin('Only one node can be selected');
@@ -33,6 +34,9 @@
   figma.ui.postMessage(initialConfig);
 
   figma.ui.onmessage = async data => {
+    figma.ui.close();
+    isProcessing = true;
+
     if (grid) {
       clearGridFrame(grid);
     } else {
@@ -41,16 +45,22 @@
     }
 
     resizeGridFrame(grid, data);
-    await createGridDots(grid, data);
-    setPluginData(grid, data);
-
     figma.currentPage.selection = [grid];
     figma.viewport.scrollAndZoomIntoView([grid]);
+
+    await createGridDots(grid, data);
+    setPluginData(grid, data);
     figma.closePlugin();
   };
 
-  figma.on('selectionchange', figma.closePlugin);
-  figma.on('currentpagechange', figma.closePlugin);
+  const maybeClosePlugin = () => {
+    if (!isProcessing) {
+      figma.closePlugin();
+    }
+  };
+
+  figma.on('selectionchange', maybeClosePlugin);
+  figma.on('currentpagechange', maybeClosePlugin);
 })();
 
 function createGridFrame() {
