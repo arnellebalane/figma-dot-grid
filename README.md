@@ -1,22 +1,45 @@
-This plugin template uses Typescript. If you are familiar with Javascript, Typescript will
-look very familiar. In fact, valid Javascript code is already valid Typescript code.
+<img src="logo.png" alt="Dot Grid Logo" height="80px" />
 
-Typescript adds type annotations to variables. This allows code editors such as Visual Studio Code
-to provide information about the Figma API while you are writing code, as well as help catch bugs
-you previously didn't notice.
+---
 
-For more information, visit https://www.typescriptlang.org/
+Easily generate dot grids for your Figma designs.
 
-Using Typescript requires a compiler to convert Typescript (code.ts) into Javascript (code.js)
-for the browser to run.
+The following properties can be configured: **grid width**, **grid height**,
+**dot size**, **dot color**, **grid gap**.
 
-To get the TypeScript compiler working:
+## Issues and feature requests
 
-1. Download Visual Studio Code if you haven't already: https://code.visualstudio.com/.
-2. Install the TypeScript compiler globally: `sudo npm install -g typescript`.
-3. Open this directory in Visual Studio Code.
-4. Compile TypeScript to JavaScript: Run the "Terminal > Run Build Task..." menu item,
-    then select "tsc: watch - tsconfig.json". You will have to do this again every time
-    you reopen Visual Studio Code.
+If you encounter any issues while using the plugin, or have a feature that you
+would like to see added to it, please [open an issue](https://github.com/arnellebalane/figma-dot-grid/issues/new)
+describing the problem or feature.
 
-That's it! Visual Studio Code will regenerate the JavaScript file every time you save.
+The plugin as it is now already addresses my personal use cases, but I will
+definitely consider additional features if they make sense.
+
+## Development
+
+**Dependencies:**
+
+- [NodeJS](https://nodejs.org/) (at least the latest LTS)
+- [Figma Desktop App](https://www.figma.com/downloads/)
+
+```bash
+# Clone the repository
+git clone git@github.com:arnellebalane/figma-dot-grid.git
+
+# Install dependencies
+npm ci
+
+# Build the project
+npm run build
+```
+
+To load the plugin from your local file system:
+
+- Open the Figma desktop app
+- From the sidebar, go to the **Plugins** page
+- From the Plugins page's right-hand sidebar, there should be a section called
+  **Development**, click on the "+" button beside the section label.
+- A **Create a plugin** dialog should appear. Choose **Link existing plugin**,
+  and select the `manifest.json` file from this project.
+- You should now have a local version of this plugin available in your Figma.
