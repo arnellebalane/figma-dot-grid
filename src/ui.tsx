@@ -41,6 +41,7 @@ const App = () => {
           id="width"
           name="width"
           min="1"
+          max="1000"
           class="input"
           value={config.width}
           onChange={handleChange}
@@ -57,6 +58,7 @@ const App = () => {
           id="height"
           name="height"
           min="1"
+          max="1000"
           class="input"
           value={config.height}
           onChange={handleChange}
@@ -73,6 +75,7 @@ const App = () => {
           id="size"
           name="size"
           min="1"
+          max="1000"
           class="input"
           value={config.size}
           onChange={handleChange}
@@ -89,6 +92,7 @@ const App = () => {
           id="gap"
           name="gap"
           min="0"
+          max="1000"
           class="input"
           value={config.gap}
           onChange={handleChange}
