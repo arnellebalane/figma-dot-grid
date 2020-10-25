@@ -2,12 +2,13 @@
   const selection = figma.currentPage.selection;
   const gridSelection = selection.filter(hasPluginData);
   let grid;
+  let selectedNode;
   let isProcessing = false;
 
   if (selection.length > 1) {
     return figma.closePlugin('Only one node can be selected');
   } else if (selection.length === 1 && gridSelection.length === 0) {
-    return figma.closePlugin('Only dot grid nodes can be selected');
+    selectedNode = selection[0];
   } else if (selection.length === 1 && gridSelection.length === 1) {
     grid = selection[0];
   }
@@ -39,6 +40,15 @@
 
     if (grid) {
       clearGridFrame(grid);
+    } else if (selectedNode) {
+      grid = createGridFrame();
+      if (selectedNode.type === "FRAME") {
+        selectedNode.appendChild(grid);
+      } else {
+        grid.x = selectedNode.x;
+        grid.y = selectedNode.y;
+        figma.currentPage.appendChild(grid);
+      }
     } else {
       grid = createGridFrame();
       figma.currentPage.appendChild(grid);
